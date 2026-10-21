@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow"><span class="pulse"></span> CITIZEN SCIENCE, BUILT TOGETHER</div>
+    <h1>See your world.<br><span>Help it thrive.</span></h1>
+    <p class="hero-lead">A shared space for people who notice environmental change — and believe local observations can spark meaningful action.</p>
+    <div class="hero-actions"><a class="button button-primary" href="{{ url_for('reports') }}">Explore community reports <span>↗</span></a><a class="button button-quiet" href="{{ url_for('new_report') }}">＋ Share an observation</a></div>
+    <div class="hero-proof"><div class="avatar-stack"><i>✳</i><i>◉</i><i>✦</i><i>+</i></div><span><strong>Local eyes. Collective impact.</strong><br>Make the invisible visible.</span></div>
+  </div>
+  <div class="hero-art">
+    <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+    <div class="planet"><div class="planet-shine"></div><div class="land land-one"></div><div class="land land-two"></div><div class="land land-three"></div><div class="planet-line"></div></div>
+    <div class="floating-card card-observation"><span class="mini-icon green">↗</span><div><strong>Observation logged</strong><small>Community evidence, together</small></div><span class="live-dot"></span></div>
+    <div class="floating-card card-health"><span class="health-ring">✳</span><div><strong>One planet.</strong><small>Countless ways to care.</small></div></div>
+    <div class="art-label label-top">FIELD NOTES <b>001 — 025</b></div><div class="art-label label-bottom">OUR ENVIRONMENT, IN FOCUS <span>●</span></div>
+  </div>
+  <div class="hero-bottom-note"><span>SCROLL TO EXPLORE</span><span class="down-arrow">↓</span><span>DESIGNED FOR COMMUNITIES</span></div>
+</section>
+<section class="stats-strip">
+  <div class="section-kicker">THE COMMUNITY PULSE</div>
+  <div class="stat"><strong>{{ stats.reports }}</strong><span>Observations shared</span></div>
+  <div class="stat"><strong>{{ stats.resolved }}</strong><span>Marked resolved</span></div>
+  <div class="stat"><strong>{{ stats.areas }}</strong><span>Places represented</span></div>
+  <div class="stat"><strong>{{ stats.members }}</strong><span>Community accounts</span></div>
+</section>
+<section class="section report-section">
+  <div class="section-heading"><div><div class="eyebrow dark-eyebrow">FROM THE FIELD</div><h2>What’s happening <em>around us.</em></h2><p>Recent observations shared by community members.</p></div><a class="text-link" href="{{ url_for('reports') }}">View all reports <span>↗</span></a></div>
+  <div class="report-grid">
+    {% for report in latest %}
+    <article class="report-card">
+      <div class="report-card-top"><span class="category-dot {{ report.category|lower|replace(' ','-') }}"></span><span>{{ report.category }}</span><span class="status status-{{ report.status|lower|replace(' ','-') }}">{{ report.status }}</span></div>
+      <h3>{{ report.title }}</h3><p>{{ report.description }}</p>
+      <div class="report-location"><span>⌖</span>{{ report.location }}</div>
+      <div class="report-card-foot"><span>Shared by {{ report.reporter }}</span><span>№ {{ "%03d"|format(report.id) }}</span></div>
+    </article>
+    {% else %}<div class="empty-state">No observations yet. Be the first to share one.</div>{% endfor %}
+  </div>
+</section>
+<section class="join-band"><div class="join-symbol">✳</div><div><div class="eyebrow">YOUR NEIGHBOURHOOD NEEDS YOU</div><h2>Noticed something? <em>Say something.</em></h2><p>Your observation could help someone see a problem differently.</p></div><a class="button button-light" href="{{ url_for('new_report') }}">Submit an observation <span>↗</span></a></section>
+<section class="section categories-section"><div class="eyebrow dark-eyebrow">A WIDER LENS</div><h2>Every detail tells <em>a story.</em></h2><div class="category-grid">
+  <a href="{{ url_for('reports', category='Pollution') }}" class="category-card"><span class="category-icon">〰</span><strong>Air & pollution</strong><small>Smoke, dust, noise</small><span class="category-arrow">↗</span></a>
+  <a href="{{ url_for('reports', category='Waste') }}" class="category-card"><span class="category-icon">♻</span><strong>Waste & litter</strong><small>Disposal, plastics, dumping</small><span class="category-arrow">↗</span></a>
+  <a href="{{ url_for('reports', category='Water') }}" class="category-card"><span class="category-icon">≈</span><strong>Water resources</strong><small>Waterways, leaks, quality concerns</small><span class="category-arrow">↗</span></a>
+  <a href="{{ url_for('reports', category='Green spaces') }}" class="category-card"><span class="category-icon">♧</span><strong>Green spaces</strong><small>Trees, parks, habitats</small><span class="category-arrow">↗</span></a>
+  <a href="{{ url_for('reports', category='Wildlife') }}" class="category-card"><span class="category-icon">⌁</span><strong>Wildlife & nature</strong><small>Species, changes, sightings</small><span class="category-arrow">↗</span></a>
+</div></section>
+{% endblock %}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b25">
+  <title>{% block title %}EcoVision{% endblock %} | Environmental Citizen Science</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">e</span><span>ecovision<span class="brand-light"></span><small>COMMUNITY ENVIRONMENTAL INTELLIGENCE</small></span></a>
+  <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  <nav class="nav-links">
+    <a href="{{ url_for('index') }}">Overview</a>
+    <a href="{{ url_for('reports') }}">Explore reports</a>
+    {% if session.get('user_id') %}
+      <a href="{{ url_for('new_report') }}">Submit observation</a>
+      <span class="user-chip">Hi, {{ session.get('user_name','Member') }}</span>
+      <a class="nav-cta" href="{{ url_for('logout') }}">Sign out</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Sign in</a>
+      <a class="nav-cta" href="{{ url_for('register') }}">Join the community <span>↗</span></a>
+    {% endif %}
+  </nav>
+</header>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<div class="flash-wrap">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+{% endwith %}
+<main>{% block content %}{% endblock %}</main>
+<footer class="site-footer">
+  <a class="brand footer-brand" href="{{ url_for('index') }}"><span class="brand-mark">e</span><span>ecovision<span class="brand-light">
+    
+  </span></span></a>
+  <p>Small observations. Shared evidence. Healthier places.</p>
+  <span>Academic demonstration · Community observations are not verified measurements.</span>
+</footer>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
